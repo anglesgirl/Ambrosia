@@ -2,7 +2,7 @@
 // 催眠？？？
 var _Window_SkillList_makeItemList = Window_SkillList.prototype.makeItemList
 Window_SkillList.prototype.makeItemList = function() {
-    if($gameParty.members()[0].isStateAffected(129)){
+    if($gameParty.members()[0].isStateAffected(150)){
     if (this._actor) {
 		var arr = this._actor.skills(); 
 		function randSort1(arr){ 
@@ -26,13 +26,13 @@ Window_SkillList.prototype.makeItemList = function() {
 
 var _Window_SkillList_updateHelp = Window_SkillList.prototype.updateHelp
 Window_SkillList.prototype.updateHelp = function() {
-	if($gameParty.members()[0].isStateAffected(129)){}
+	if($gameParty.members()[0].isStateAffected(150)){}
 	else{_Window_SkillList_updateHelp.call(this)}
 };
 
 var _Window_SkillList_drawItem = Window_SkillList.prototype.drawItem
 Window_SkillList.prototype.drawItem = function(index) {
-	if($gameParty.members()[0].isStateAffected(129)){
+	if($gameParty.members()[0].isStateAffected(150)){
     var skill = this._data[index];
     if (skill) {
         var costWidth = this.costWidth();
@@ -48,7 +48,7 @@ Window_SkillList.prototype.drawItem = function(index) {
 
 var _Window_SkillList_selectLast = Window_SkillList.prototype.selectLast
 Window_SkillList.prototype.selectLast = function() {
-	if($gameParty.members()[0].isStateAffected(129)){
+	if($gameParty.members()[0].isStateAffected(150)){
     var skill;
     var index = this._data.indexOf(skill);
     this.select(index >= 0 ? index : 0);}
@@ -57,7 +57,7 @@ Window_SkillList.prototype.selectLast = function() {
 
 var _Window_ActorCommand_selectLast = Window_ActorCommand.prototype.selectLast
 Window_ActorCommand.prototype.selectLast = function() {
-	if($gameParty.members()[0].isStateAffected(129)){
+	if($gameParty.members()[0].isStateAffected(150)){
     this.select(0);}
 	else{_Window_ActorCommand_selectLast.call(this)}
 };
@@ -66,13 +66,22 @@ var _Window_ActorCommand_makeCommandList = Window_ActorCommand.prototype.makeCom
 Window_ActorCommand.prototype.makeCommandList = function() {
 	_Window_ActorCommand_makeCommandList.call(this)
 	if (!$gameParty.members()[0].isStateAffected(125)){
-		if ($gameVariables._data[2085] >= 100 || $gameParty.members()[0].isStateAffected(142) || $gameParty.members()[0].isStateAffected(143) || $gameParty.members()[0].isStateAffected(144)){
-			this.addCommand('自慰', 'onanii');}
+		if($gameVariables._data[2085] >= 100 || $gameParty.members()[0].isStateAffected(142) || $gameParty.members()[0].isStateAffected(143) || $gameParty.members()[0].isStateAffected(144)) this.addCommand('自慰', 'onanii');
 	}
+	if ($gameParty.members()[0].isStateAffected(125) || $gameParty.members()[0].isStateAffected(149)){
+		if($gameParty.members()[0].hp > $gameParty.members()[0].mhp / 20 + 50) this.addCommand('挣脱', 'struggle');
+		this.addCommand('忍耐', 'hold');
+		if ($gameVariables.value(121) >= 100){
+		for (var i=0;i<$gameTroop.aliveMembers().length;i++){
+			if($gameTroop.aliveMembers()[i].isStateAffected(139)){
+				this.addCommand('侍奉', 'serve');
+				return;
+	}}}}
 };
 //拘束禁指令\发情改指令
 var _Window_ActorCommand_addAttackCommand = Window_ActorCommand.prototype.addAttackCommand
 Window_ActorCommand.prototype.addAttackCommand = function(){
+	if ($gameParty.members()[0].isStateAffected(125) || $gameParty.members()[0].isStateAffected(149)) return;
 	if($gameVariables._data[2085] >= 150){
 		var a = $gameVariables._data[2085];
 		var b = 140 + Math.floor(Math.random()*70);
@@ -83,12 +92,12 @@ Window_ActorCommand.prototype.addAttackCommand = function(){
 		var b = 90 + Math.floor(Math.random()*60);
 		if(a > b){this.addCommand('接受', 'accept');return;}
 	}
-	if($gameParty.members()[0].isStateAffected(125))return;
 	_Window_ActorCommand_addAttackCommand.call(this)	
 };
 
 var _Window_ActorCommand_addSkillCommands = Window_ActorCommand.prototype.addSkillCommands
 Window_ActorCommand.prototype.addSkillCommands = function() {
+	if ($gameParty.members()[0].isStateAffected(125) || $gameParty.members()[0].isStateAffected(149)) return;
 	if($gameVariables._data[2085] >= 150){
 		var a = $gameVariables._data[2085];
 		var b = 140 + Math.floor(Math.random()*70);
@@ -104,6 +113,7 @@ Window_ActorCommand.prototype.addSkillCommands = function() {
 
 var _Window_ActorCommand_addGuardCommand = Window_ActorCommand.prototype.addGuardCommand
 Window_ActorCommand.prototype.addGuardCommand = function(){
+	if ($gameParty.members()[0].isStateAffected(125) || $gameParty.members()[0].isStateAffected(149)) return;
 	if($gameVariables._data[2085] >= 150){
 		var a = $gameVariables._data[2085];
 		var b = 140 + Math.floor(Math.random()*70);
@@ -114,12 +124,12 @@ Window_ActorCommand.prototype.addGuardCommand = function(){
 		var b = 90 + Math.floor(Math.random()*60);
 		if(a > b){this.addCommand('接受', 'accept');return;}
 	}
-	if($gameParty.members()[0].isStateAffected(125))return;
 	_Window_ActorCommand_addGuardCommand.call(this)	
 };
 
 var _Window_ActorCommand_addItemCommand = Window_ActorCommand.prototype.addItemCommand
 Window_ActorCommand.prototype.addItemCommand = function(){
+	if ($gameParty.members()[0].isStateAffected(125) || $gameParty.members()[0].isStateAffected(149)) return;
 	if($gameVariables._data[2085] >= 150){
 		var a = $gameVariables._data[2085];
 		var b = 140 + Math.floor(Math.random()*70);
@@ -130,7 +140,6 @@ Window_ActorCommand.prototype.addItemCommand = function(){
 		var b = 90 + Math.floor(Math.random()*60);
 		if(a > b){this.addCommand('接受', 'accept');return;}
 	}
-	if($gameParty.members()[0].isStateAffected(125))return;
 	_Window_ActorCommand_addItemCommand.call(this)	
 };
 
@@ -141,6 +150,9 @@ Scene_Battle.prototype.createActorCommandWindow = function() {
     this._actorCommandWindow.setHandler('accept', this.commandAccept.bind(this));
     this._actorCommandWindow.setHandler('surrender', this.commandSurrender.bind(this));
 	this._actorCommandWindow.setHandler('onanii', this.commandOnanii.bind(this));
+	this._actorCommandWindow.setHandler('struggle', this.commandStruggle.bind(this));
+	this._actorCommandWindow.setHandler('hold', this.commandHold.bind(this));
+	this._actorCommandWindow.setHandler('serve', this.commandServe.bind(this));
     this.addWindow(this._actorCommandWindow);
 };
 
@@ -156,21 +168,37 @@ Scene_Battle.prototype.commandOnanii = function () {
     BattleManager.inputtingAction().setSkill(27);
     this.selectNextCommand();
 };
-//无法奔跑
-Game_Player.prototype.updateDashing = function() {
-    if (this.isMoving()) {
-        return;
+Scene_Battle.prototype.commandStruggle = function () {
+    BattleManager.inputtingAction().setSkill(10);
+    this.selectNextCommand();
+};
+Scene_Battle.prototype.commandHold = function () {
+    BattleManager.inputtingAction().setSkill(13);
+    this.selectNextCommand();
+};
+Scene_Battle.prototype.commandServe = function () {
+    BattleManager.inputtingAction().setSkill(165);
+    this.selectNextCommand();
+};
+//团队属性
+Game_Unit.prototype.attackPower = function() {
+    var members = this.members();
+    if (members.length === 0) {
+        return 1;
     }
-	if ($gameVariables._data[354] <= 0 || $gameVariables._data[2085] >= 100) {
-		this._canDash = false;
-	}
-	if ($gameVariables._data[354] >= 200) {
-		this._canDash = true;
-	}
-    if (this.canMove() && !this.isInVehicle() && !$gameMap.isDashDisabled() && this._canDash) {
-        this._dashing = this.isDashButtonPressed() || $gameTemp.isDestinationValid();
-    } else {
-        this._dashing = false;
+    var sum = members.reduce(function(r, member) {
+        return r + member.atk;
+    }, 0);
+    return sum / members.length;
+};
+Game_Unit.prototype.magicPower = function() {
+    var members = this.members();
+    if (members.length === 0) {
+        return 1;
     }
+    var sum = members.reduce(function(r, member) {
+        return r + member.mat;
+    }, 0);
+    return sum / members.length;
 };
 })();
